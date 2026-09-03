@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "PGE E-Library"
+description = "A practical course library for Petroleum and Gas Engineering students, with level-based curriculum, course materials, past questions, and lightweight admin controls."
+version = "1.0.0"
+id = "artifacts/pge-e-library"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21511
+
+[services.development]
+run = "pnpm --filter @workspace/pge-e-library run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pge-e-library", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pge-e-library/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21511"
+BASE_PATH = "/"
